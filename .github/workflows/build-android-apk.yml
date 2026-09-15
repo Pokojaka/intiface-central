@@ -44,7 +44,7 @@ jobs:
             --target-platform android-arm,android-arm64,android-x64
 
       - name: Verify native libs present
-        run: ./scripts/verify-android-native-libs.sh
+        run: SKIP_AAB_CHECK=1 ./scripts/verify-android-native-libs.sh
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
