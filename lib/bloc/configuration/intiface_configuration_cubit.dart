@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intiface_central/src/rust/api/runtime.dart';
+import 'package:intiface_central/util/device_config_patch.dart';
 import 'package:intiface_central/util/intiface_util.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -574,7 +575,8 @@ class IntifaceConfigurationCubit extends Cubit<IntifaceConfigurationState> {
   Future<EngineOptionsExternal> getEngineOptions() async {
     String? deviceConfigFile;
     if (await IntifacePaths.deviceConfigFile.exists()) {
-      deviceConfigFile = await File(IntifacePaths.deviceConfigFile.path).readAsString();
+      deviceConfigFile =
+          patchDeviceConfigJson(await File(IntifacePaths.deviceConfigFile.path).readAsString());
     }
 
     String? userDeviceConfigFile;
