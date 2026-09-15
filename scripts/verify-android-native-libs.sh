@@ -15,7 +15,9 @@ REQUIRED_LIBS=("librust_lib_intiface_central.so" "libapp.so" "libflutter.so")
 ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
 
 APK="build/app/outputs/flutter-apk/app-release.apk"
+# AAB is only built in release pipelines that need Play Store uploads.
 AAB="build/app/outputs/bundle/release/app-release.aab"
+SKIP_AAB="${SKIP_AAB_CHECK:-0}"
 
 failed=0
 
@@ -57,6 +59,7 @@ verify() {
 }
 
 verify "$APK" ""
-verify "$AAB" "base/"
 
-exit "$failed"
+if [ "$SKIP_AAB" != "1" ]; then
+  verify "$AAB" "base/"
+fi
